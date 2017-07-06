@@ -1,3 +1,6 @@
+// this algorithm problems are from baek jun 
+
+
 
 #pragma warning (disable : 4996)
 #include <iostream>
