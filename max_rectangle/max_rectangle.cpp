@@ -20,11 +20,10 @@ int main(int argc, char** argv)
 	int arr[101][101] = { 0, };
 	int table[101][101] = { 0, };
 
-	int tmax = 0;
 	int n = 0;
+
+	int x = 0;
 	int k;
-	int sum;
-	int v;
 
 	cin >> T;
 	for (test_case = 0; test_case < T; test_case++)
@@ -37,35 +36,34 @@ int main(int argc, char** argv)
 			for (int j = 1; j <= n; j++) {
 				cin >> k;
 				arr[i][j] = arr[i-1][j] + k;
+				table[i][j] = table[i][j - 1] + arr[i][j];
 			}
 		}
 
-		Answer = 0xffffffff;
+		Answer = -100;
 		for (int i = 1; i <= n; i++)
 		{
 
 			for (int j = 1; j <= n; j++) 
 			{
-				 
-				for (int k = 1; k < i; k++)
+				
+				for (int k = 0; k < i; k++)
 				{
-					int a = MAX(arr[i][j], arr[i][j] - arr[k][j]);
+					for (int l = 0; l < j; l++)
+					{
 
-					if (Answer < a)
-						Answer = a;
+						int a = table[k][j] - table[k][l];
+						int b = table[i][j] - table[i][l];
 
-
+						if (Answer < b - a)
+							Answer = b - a;
+					}
+				
 				}
 			}
 		}
 
 	
-
-
-		Answer = 0;
-
-		
-
 
 		cout << "Case #" << test_case + 1 << endl;
 		cout << Answer << endl;
