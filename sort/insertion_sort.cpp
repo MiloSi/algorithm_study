@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#define SIZE 12
+#define SIZE 16
 #define N SIZE
 
 inline void SWAP(int& a, int& b)
@@ -37,7 +37,7 @@ void show(int *arr)
 }
 
 int main() {
-	int arr[SIZE] = { 1, 11, 2, 8, 4, 19, 3, 42, 5, 7, 10, 6 };
+	int arr[SIZE] = { 1, 11, 2, 8, 4, 19, 3, 42, 5, 7, 10, 6, 9, 64, 16, 12};
 
 	cout << "INSERTON SORT" << endl;
 	show(arr);
