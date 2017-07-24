@@ -3,7 +3,7 @@ using namespace std;
 
 int main() {
 	int n, b, c, w;
-	int result = 0;
+	long long result = 0;
 	int *candidate;
 
 	cin >> n;
