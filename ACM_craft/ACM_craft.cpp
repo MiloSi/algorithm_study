@@ -1,9 +1,12 @@
 #include <iostream>
+#include <algorithm>
 #include <memory.h>
+#include <vector>
+
 using namespace std;
-
-
 int cost[1001];
+bool checked[1001];
+bool table[1001][1001];
 
 
 inline int MAX(int a, int b) {
@@ -17,10 +20,14 @@ typedef struct _Edge {
 
 
 typedef struct _Node {
-	struct _Edge* header =NULL;
+	struct _Edge* header = NULL;
 }node;
-
 node nodes[1001];
+
+vector<int> sequence;
+
+
+
 
 void insert(int i, int to) {
 	edge *e = new edge();
@@ -53,18 +60,17 @@ void clear(int n) {
 	}
 }
 
-int bfs(int start, int n) {
-
+void bfs(int start, int n) {
+	checked[start] = true;
 	int mx = cost[start];
 
-	edge *h = nodes[start].header;
-
-	while (h != NULL) {
-		mx = MAX(bfs(h->to, n) + cost[start], mx);
-		h = h->next;
+	for (int i = 1; i <= n; i++)
+	{
+		if (checked[i] == false && table[start][i]) {
+			bfs(i, n);
+		}
 	}
-
-	return mx;
+	sequence.push_back(start);
 }
 
 int main() {
@@ -80,20 +86,49 @@ int main() {
 		result = 0;
 		cin >> n >> k;
 
-		for(int i = 1; i <= n; i++)
+
+		memset(checked, false, sizeof(checked));
+		memset(table, false, sizeof(table));
+
+		//sequence.resize(n + 1);
+		for (int i = 1; i <= n; i++)
 			cin >> cost[i];
 		for (int i = 0; i < k; i++)
 		{
 			cin >> x >> y;
 			insert(y, x);
+			table[x][y] = true;
+		}
+		cin >> start;
+
+		for (int i = 1; i <= n; i++) {
+			if(!checked[i])
+				bfs(i, n);
+		}
+		reverse(sequence.begin(), sequence.end());
+
+		for (int i = 0; i < sequence.size(); i++ ) {
+			int index = sequence[i];
+			int values = cost[index];
+
+			edge* e = nodes[index].header;
+
+			int edgeMax = 0;
+
+			while (e != NULL) {
+				int from = e->to;
+
+				if (edgeMax < cost[from])
+					edgeMax = cost[from];
+
+				e = e->next;
+			}
+			cost[index] = cost[index] + edgeMax;
 		}
 
-		cin >> start;
-		result = bfs(start, n);
 
-
-		cout << result << endl;
-
+		cout << cost[start] << endl;
+		sequence.clear();
 		clear(n);
 
 	}
