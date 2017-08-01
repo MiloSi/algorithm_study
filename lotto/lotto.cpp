@@ -2,7 +2,7 @@
 #include <array>
 #include <queue>
 using namespace std;
-array<int, 50> arr;
+array<int, 13> arr;
 
 int n;
 void dfs(int index, int s, queue<int> q) {
