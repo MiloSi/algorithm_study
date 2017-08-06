@@ -3,11 +3,12 @@
 #include <memory.h>
 #include <vector>
 
+//(topological sorting)
+
 using namespace std;
 int cost[1001];
 bool checked[1001];
 bool table[1001][1001];
-
 
 inline int MAX(int a, int b) {
 	return a > b ? a : b;
