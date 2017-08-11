@@ -1,15 +1,11 @@
 
 #include <iostream>
 using namespace std;
-
-
 int main() {
 	int t;
 	int q;
 	int n;
-
 	cin >> t;
-
 	for (int testcase = 0; testcase < t; testcase++)
 	{
 		cin >> n;
@@ -20,8 +16,5 @@ int main() {
 		}
 
 	}
-
-
-
 	return 0;
 }
