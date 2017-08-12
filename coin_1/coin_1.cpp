@@ -1,6 +1,6 @@
 #pragma warning (disable: 4996)
 #include <cstdio>
-//memory 를 4MB만 이용해서??
+// In this code, Limited 4MB Memory.
 int main() {
 
 	int n, k;
