@@ -1,28 +1,29 @@
 #include <iostream>
+#include <algorithm>
+#include <utility>
 using namespace std;
-int arr[501];
-int dp[501][501];
-inline int MAX(int a, int b) {
-	return a > b ? a : b;
+#define PII pair<int ,int>
+PII	p[101];
+int dest[101];
+int dp[101];
+bool ascending(PII a, PII b) {
+	return a.first < b.first;
 }
 int main() {
 	int n;
-	int limit = 0;
-	int x, y; 
 	int k = 0;
 	cin >> n;
-	while (n--) {
-		cin >> x >> y;
-		arr[x] = y;
+	for (int i = 0; i < n; i++) {
+		cin >> p[i].first >> p[i].second;
 	}
-	for (int i = 1; i <= 500; i++) {
-		for (int j = i; j <= 500; j++) {
-			if (arr[j] == 0 || arr[i] <= arr[j]) dp[i][j] = MAX(dp[i-1][j], dp[i][j-1]);
-			else if (arr[i] > arr[j]) {
-				dp[i][j] = MAX(dp[i][j-1], dp[i-1][j-1] +1);
-			}
-		}
+	sort(p, p + n, ascending);
+	for (int i = 0; i < n; i++) {
+		dest[i] = p[i].second;
 	}
-	cout << dp[500][500] << endl;
-	return 0; 
+	fill(dp, dp + n, 501);
+	for (int i = 0; i < n; i++) {
+		*lower_bound(dp, dp + n, dest[i]) = dest[i];
+	}
+	cout << n - (lower_bound(dp, dp + n, 501) - dp) << endl;
+	return 0;
 }
