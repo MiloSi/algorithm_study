@@ -5,10 +5,9 @@ inline int MIN(int a, int b) { return a < b ? a : b; }
 
 
 /*
-D(K) = 최소 코인의 수.
-C(i) = 코인 i 의 크기
-S(0, N, F()) = F()를 0 부터 N 까지 반복
-
+D(K) = Max the number of coins;
+C(i) = The value of each coins
+S(0, N, F()) = continue F() from 0 to N
 D(K) = MIN(D(K), S(0, N, D(K - C(i)))
 
 */
