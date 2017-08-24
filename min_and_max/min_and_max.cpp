@@ -1,4 +1,5 @@
-#include <iostream>
+#pragma warning(disable : 4996)
+#include <cstdio>
 #include <vector>
 #include <utility>
 #include <cmath>
@@ -15,11 +16,14 @@ inline P MIN_MAX(P a, P b) {
 	t.second = a.second > b.second ? a.second : b.second;
 	return t;
 }
-P update(VP& tree, int node, int start, int end, int index, int value) {
-	if (index < start || end < index) return tree[node];
-	if (start == end) return tree[node] = { value, value };
+P init(VP& tree, const vector<int>& vec, int node, int start, int end) {
+	if (start == end) {
+		tree[node].first = vec[start];
+		tree[node].second = vec[start];
+		return tree[node];
+	}
 	int m = (start + end) / 2;
-	return tree[node] = MIN_MAX(update(tree, node * 2, start, m, index, value), update(tree, node * 2 + 1, m + 1, end, index, value));
+	return tree[node] = MIN_MAX(init(tree, vec, node * 2, start, m), init(tree, vec, node * 2 + 1, m+1, end));
 }
 P print(VP& tree, int node, int start, int end, int left, int right) {
 	P temp(0, 0);
@@ -30,17 +34,18 @@ P print(VP& tree, int node, int start, int end, int left, int right) {
 }
 int main() {
 	int n, m, v, l, r;
-	cin >> n >> m;
+	scanf("%d%d",&n, &m);
+	vector<int> vec(n + 1);
+	LOP(i, n) {
+		scanf("%d",&vec[i]);
+	}
 	int h = ceil(log2(n));
 	VP tree(1 << (h + 1), make_pair(0, 0));
-	LOP(i, n) {
-		cin >> v;
-		update(tree, 1, 1, n, i, v);
-	}
+	init(tree, vec, 1, 1, n);
 	LOP(i, m) {
-		cin >> l >> r;
+		scanf("%d%d", &l, &r);
 		P result = print(tree, 1, 1, n, l, r);
-		cout << result.first << " " << result.second << endl;
+		printf("%d %d\n", result.first, result.second);
 	}
 	return 0;
 }
