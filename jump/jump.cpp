@@ -14,7 +14,6 @@ void bfs() {
 	queue<PII> q;
 	int y, x;
 	q.push(PII(0, 0));
-
 	while (q.size()) {
 		PII p = q.front();
 		q.pop();
@@ -22,7 +21,6 @@ void bfs() {
 		int move = arr[p.first][p.second];
 		if (p.first + move <= n - 1) dp[p.first + move][p.second] += dp[p.first][p.second];
 		if (p.second + move <= n - 1) dp[p.first][p.second + move] += dp[p.first][p.second];
-
 		LOP(i, 2) {
 			y = p.first + yf[i];
 			x = p.second + xf[i];
