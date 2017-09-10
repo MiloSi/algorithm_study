@@ -1,6 +1,7 @@
 #pragma warning (disable: 4996)
 #include<cstdio>
 #include<queue>
+#include<algorithm>
 #include<utility>
 #include<functional>
 #include<vector>
@@ -12,10 +13,9 @@ int n, e, a, b, c;
 vector<vector<PI>> node;
 vector<bool> visited;
 vector<PI> cost;
-const int INF = 0x5fffffff;
+const int INF = 0x1fffffff;
 void dijkstra(int k) {
 	pq.push(make_pair(0, k));
-	visited[k] = true;
 	cost[k].first = 0;
 	cost[k].second = 0;
 	int n_size = n-1;
@@ -31,12 +31,40 @@ void dijkstra(int k) {
 				cost[i.first].first = i.second + p.first;
 				cost[i.first].second = p.second;
 				if (!visited[i.first]) {
-					visited[i.first] = true;
 					pq.push(make_pair(cost[i.first].first, i.first));
 				}
 			}
 		}
 	}
+}
+void _clear() {
+	visited.clear();
+	visited.resize(n + 1);
+	cost.clear();
+	cost.resize(n + 1, make_pair(INF, -1));
+}
+PI getMin(int a, int b, int a1, int b1) {
+	PI p;
+	if (a < b) {
+		p = { a, a1 };
+	}
+	else {
+		p = { b, b1 };
+	}
+	return p;
+}
+int getRoute(int f1, int f2, int f3) {
+	int sum = 0;
+	dijkstra(f1);
+	sum = cost[f2].first;
+	_clear();
+	dijkstra(f2);
+	sum += cost[f3].first;
+	_clear();
+	dijkstra(f3);
+	sum += cost[n].first;
+	_clear();
+	return sum;
 }
 int main() {
 	scanf("%d%d", &n, &e);
@@ -49,14 +77,11 @@ int main() {
 		node[b].push_back(make_pair(a, c));
 	}
 	scanf("%d%d", &a, &b);
-	dijkstra(1);
-	int t = 0;
-	for (int j = n - 1; j != 0; j = cost[j].second) {
-		if (j == a || j == b) t++;
-	}
-	if (t == 2) {
-		printf("%d\n", cost[n - 1].first);
-		return 0;
-	}
+	int sum = min(getRoute(1, a, b), getRoute(1, b, a));
+
+	if (sum >= INF)
+		printf("-1\n");
+	else
+		printf("%d\n", sum);
 	return 0;
 }
