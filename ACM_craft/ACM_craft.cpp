@@ -4,7 +4,7 @@
 #include <vector>
 
 //(topological sorting)
-
+//please restudy again
 using namespace std;
 int cost[1001];
 bool checked[1001];
