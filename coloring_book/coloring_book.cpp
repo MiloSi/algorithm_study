@@ -10,7 +10,7 @@ bool visited[100][100];
 int yv[4] = { -1,1,0,0 };
 int xv[4] = { 0,0,-1,1 };
 
-void bfs(int y, int x, int n, int m, int color, vector<vector<int>>& pictures, int &ms) {
+void bfs(int y, int x, int m, int n, int color, vector<vector<int>>& pictures, int &ms) {
 	int w = 1;
 	Node nd = { y, x };
 	visited[y][x] = true;
@@ -22,7 +22,7 @@ void bfs(int y, int x, int n, int m, int color, vector<vector<int>>& pictures, i
 		for (int i = 0; i < 4; i++) {
 			y = nd1.y + yv[i];
 			x = nd1.x + xv[i];
-			if (y < 0 || y >= n || x < 0 || x >= m) continue;
+			if (y < 0 || y >= m || x < 0 || x >= n) continue;
 			if (pictures[y][x] == color && !visited[y][x]) {
 				visited[y][x] = true;
 				w++;
@@ -37,19 +37,19 @@ void bfs(int y, int x, int n, int m, int color, vector<vector<int>>& pictures, i
 }
 
 
-// Àü¿ª º¯¼ö¸¦ Á¤ÀÇÇÒ °æ¿ì ÇÔ¼ö ³»¿¡ ÃÊ±âÈ­ ÄÚµå¸¦ ²À ÀÛ¼ºÇØÁÖ¼¼¿ä.
+// ì „ì—­ ë³€ìˆ˜ë¥¼ ì •ì˜í•  ê²½ìš° í•¨ìˆ˜ ë‚´ì— ì´ˆê¸°í™” ì½”ë“œë¥¼ ê¼­ ì‘ì„±í•´ì£¼ì„¸ìš”.
 vector<int> solution(int m, int n, vector<vector<int>> picture) {
 	int number_of_area = 0;
 	int max_size_of_one_area = 0;
-	for (int i = 0; i < n; i++) {
-		fill(visited[i], visited[i] + m, false);
+	for (int i = 0; i < m; i++) {
+		fill(visited[i], visited[i] + n, false);
 	}
 	vector<int> answer(2);
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
 			if (picture[i][j] != 0 && !visited[i][j]) {
 				number_of_area++;
-				bfs(i, j, n, m, picture[i][j], picture, max_size_of_one_area);
+				bfs(i, j, m, n, picture[i][j], picture, max_size_of_one_area);
 			}
 		}
 	}
