@@ -15,7 +15,8 @@ int ans;
 void backtracking(int idx, PI p, string s) {	
 	if (idx == 0) {
 		reverse(s.begin(), s.end());
-		cout << s << endl;
+		if(s.length() >= 1)
+			cout << s << endl;
 		return;
 	}
 	for (auto i : v[idx]) {
@@ -41,7 +42,7 @@ int main() {
 	for (int i = 1; i <= len1; i++) {
 		for (int j = 1; j <= len2; j++) {
 			if (s1[i] == s2[j]) {
-				int val = dp[i - 1][j] + 1;
+				int val = dp[i - 1][j-1] + 1;
 				if (val > ans) ans = val;
 				v[val].push_back(MP(i, j));
 				dp[i][j] = max(dp[i][j - 1], val);
