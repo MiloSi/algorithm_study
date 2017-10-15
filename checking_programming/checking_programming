@@ -1,0 +1,160 @@
+#pragma warning (disable:4996)
+#include <iostream>
+#include <queue>
+#include <string>
+#include <set>
+#include <utility>
+using namespace std;
+
+typedef struct _Node {
+	int y, x, d, num;
+}Node;
+typedef struct _MyPair {
+	int first, second;
+}mPair;
+typedef struct myRule {
+	bool operator()( mPair a, mPair b) const {
+		if (a.first == b.first)
+			return a.second < b.second;
+		return a.first < b.first;
+	}
+}myrule;
+
+mPair make_pair(int a, int b) {
+	mPair m = { a,b };
+	return m;
+}
+char arr[20][20];
+set<mPair, myrule> visited[20][20];
+int yv[4] = { -1,0,1,0 };
+int xv[4] = { 0,1,0,-1 };
+int dir = 1;
+int n, m;
+
+string bfs(int y, int x) {
+	queue<Node> q;
+	Node  nd = { y,x, 1, 0};
+	q.push(nd);
+	
+	while (q.size()) {
+		nd = q.front();
+		q.pop();
+		if (nd.y < 0) nd.y = n - 1;
+		if (nd.y > n - 1) nd.y = 0;
+		if (nd.x < 0) nd.x = m - 1;
+		if (nd.x > m - 1) nd.x = 0;
+		if (visited[nd.y][nd.x].find(make_pair(nd.num, nd.d)) != visited[nd.y][nd.x].end()) continue;
+		
+		
+		visited[nd.y][nd.x].insert(make_pair(nd.num, nd.d));
+
+		switch (arr[nd.y][nd.x])	
+		{
+		case '<' :
+			nd.d = 3;
+			nd.x -= 1;
+			q.push(nd);
+			break;
+		case '>' :
+			nd.d = 1;
+			nd.x += 1;
+			q.push(nd);
+			break;
+		case '^':
+			nd.d = 0;
+			nd.y -= 1;
+			q.push(nd);
+			break;
+		case 'v':
+			nd.d = 2;
+			nd.y += 1;
+			q.push(nd);
+			break;
+
+		case '_':
+			if (nd.num == 0) {
+				nd.d = 1;
+				nd.x += 1;
+				q.push(nd);
+			}
+			else {
+				nd.d = 3;
+				nd.x -= 1;
+				q.push(nd);
+			}
+			break;
+
+		case '|':
+			if (nd.num == 0) {
+				nd.d = 2;
+				nd.y += 1;
+				q.push(nd);
+				break;
+			}
+			else {
+				nd.d = 0;
+				nd.y -= 1;
+				q.push(nd);
+				break;
+			}
+			break;
+
+		case '?':
+			for (int i = 0; i < 4; i++)
+			{
+				Node nd1;
+				nd1.x = nd.x + xv[i];
+				nd1.y = nd.y + yv[i];
+				nd1.d = i;
+				q.push(nd1);
+			}
+			break;
+		case '.':
+			nd.x = nd.x + xv[nd.d];
+			nd.y = nd.y + yv[nd.d];
+			q.push(nd);
+			break;
+		case '@':
+			return "YES";
+			break;
+		case '+' :
+			nd.num += 1;
+			if (nd.num > 15) nd.num = 0;
+			nd.x = nd.x + xv[nd.d];
+			nd.y = nd.y + yv[nd.d];
+			q.push(nd);
+			break;
+		case '-':
+			nd.num -= 1;
+			if (nd.num < 0) nd.num = 15;
+			nd.x = nd.x + xv[nd.d];
+			nd.y = nd.y + yv[nd.d];
+			q.push(nd);
+			break;
+		default:
+			nd.num = arr[nd.y][nd.x] - '0';
+			nd.x = nd.x + xv[nd.d];
+			nd.y = nd.y + yv[nd.d];
+			q.push(nd);
+			break;
+		}
+	}
+	return "NO";
+}
+
+
+int main() {
+	int t;
+	cin >> t;
+	for (int ts = 1; ts <= t; ts++) {
+		cin >> n >> m;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				visited[i][j].clear();
+				cin >> arr[i][j];
+			}
+		}
+		cout << "#" << ts << " " << bfs(0, 0) << endl;
+	}
+	return 0;
+}
