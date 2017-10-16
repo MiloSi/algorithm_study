@@ -1,0 +1,5 @@
+Departure Seoul 0949
+Arrival Daejeon 1411
+Departure Seoul 1325
+Arrival Daejeon 1550
+No connection
