@@ -27,7 +27,7 @@ void getValue(int y, int x) {
 	init();
 
 	if (arr[y][x] == 1) value = 1;
-	if (cost < value * m) {
+	if (cost <= value * m) {
 		if(ans < 1)
 			ans = 1;
 	}
@@ -57,7 +57,7 @@ void getValue(int y, int x) {
 		}
 		cost += w * 4;
 		w++;
-		if (value * m > cost) {
+		if (value * m >= cost) {
 			if (ans < value) ans = value;
 		}
 	}
